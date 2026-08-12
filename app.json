@@ -19,7 +19,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#121212"
-      }
+      },
+      "intentFilters": [
+        {
+          "action": "MAIN",
+          "category": [
+            "HOME",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

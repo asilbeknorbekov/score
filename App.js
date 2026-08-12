@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Animated, KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Animated, KeyboardAvoidingView, Platform, SafeAreaView, BackHandler } from 'react-native';
 import { useState, useRef, useEffect } from 'react';
 
 export default function App() {
@@ -9,10 +9,23 @@ export default function App() {
   
   const CORRECT_PASSWORD = '123';
 
-  // Force hide the status bar (makes it harder to swipe down)
+  // Force hide the status bar and block the back button
   useEffect(() => {
-    // We use StatusBar hidden prop below
-  }, []);
+    const backAction = () => {
+      // If unlocked, allow them to go back. If locked, block it completely.
+      if (unlocked) {
+        return false;
+      }
+      return true; // true blocks the default back action
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [unlocked]);
 
   const handleUnlock = () => {
     if (password === CORRECT_PASSWORD) {
